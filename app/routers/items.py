@@ -4,13 +4,24 @@ from typing import List
 
 import app.services.item_service as ItemService
 
-router = APIRouter(prefix='/items')
+router = APIRouter(prefix='/item')
 
 @router.get('/', response_model=List[Item])
 async def get_items_list():
     resp = ItemService.get_items()
     return resp
 
+
+@router.get('/huge')
+async def get_huge_mock():
+    resp = ItemService.get_mock_items()
+    return resp
+
+
+@router.get('/{item_id}', response_model=Item)
+async def get_item_by_id(item_id: str):
+    return ItemService.get_item_by_id(item_id)
+    
 
 @router.post('/')
 async def create_item(item: InputItem):
